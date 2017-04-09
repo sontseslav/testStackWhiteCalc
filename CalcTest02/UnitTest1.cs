@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestStack.White;
 using TestStack.White.UIItems;
+using TestStack.White.UIItems.MenuItems;
 using TestStack.White.UIItems.WindowItems;
 using TestStack.White.UIItems.Finders;
 using System.Threading;
@@ -61,7 +62,7 @@ namespace CalcTest02
             GetButton("93").Click();
             TypeRandomNumber(out number2);
             GetButton("121").Click();
-            Assert.AreEqual<string>(ResultTextBox(), (number1 + number2).ToString());
+            Assert.AreEqual<string>((number1 + number2).ToString(), ResultTextBox());
             application.Close();
         }
 
@@ -75,7 +76,7 @@ namespace CalcTest02
             GetButton("94").Click();
             TypeRandomNumber(out number2);
             GetButton("121").Click();
-            Assert.AreEqual<string>(ResultTextBox(), (number1 - number2).ToString());
+            Assert.AreEqual<string>((number1 - number2).ToString(), ResultTextBox());
             application.Close();
         }
 
@@ -89,7 +90,7 @@ namespace CalcTest02
             GetButton("92").Click();
             TypeRandomNumber(out number2);
             GetButton("121").Click();
-            Assert.AreEqual<string>(ResultTextBox(), (number1 * number2).ToString());
+            Assert.AreEqual<string>((number1 * number2).ToString(), ResultTextBox());
             application.Close();
         }
 
@@ -103,7 +104,7 @@ namespace CalcTest02
             GetButton("91").Click();
             TypeRandomNumber(out number2);
             GetButton("121").Click();
-            Assert.AreEqual<string>(ResultTextBox(), ((double)number1 / number2).ToString("G16"));
+            Assert.AreEqual<string>(((double)number1 / number2).ToString("G16"), ResultTextBox());
             application.Close();
         }
 
@@ -117,25 +118,38 @@ namespace CalcTest02
             GetButton("93").Click();
             TypeRandomNumber(out number2);
             GetButton("121").Click();
-            Assert.AreEqual<string>(ResultTextBox(), (number1 + number2).ToString());
+            Assert.AreEqual<string>((number1 + number2).ToString(), ResultTextBox());
             GetButton("81").Click();
             TypeRandomNumber(out number1);
             GetButton("94").Click();
             TypeRandomNumber(out number2);
             GetButton("121").Click();
-            Assert.AreEqual<string>(ResultTextBox(), (number1 - number2).ToString());
+            Assert.AreEqual<string>((number1 - number2).ToString(), ResultTextBox());
             GetButton("81").Click();
             TypeRandomNumber(out number1);
             GetButton("92").Click();
             TypeRandomNumber(out number2);
             GetButton("121").Click();
-            Assert.AreEqual<string>(ResultTextBox(), (number1 * number2).ToString());
+            Assert.AreEqual<string>((number1 * number2).ToString(), ResultTextBox());
             GetButton("81").Click();
             TypeRandomNumber(out number1);
             GetButton("91").Click();
             TypeRandomNumber(out number2);
             GetButton("121").Click();
-            Assert.AreEqual<string>(ResultTextBox(), ((double)number1 / number2).ToString("G16"));
+            Assert.AreEqual<string>(((double)number1 / number2).ToString("G16"), ResultTextBox());
+            application.Close();
+        }
+
+        [TestMethod]
+        public void TestScientific()
+        {
+            application = Application.Launch(@"C:\Windows\system32\calc.exe");
+            Assert.IsNotNull(application);
+            GetWindow().MenuBar.MenuItem("View", "Scientific").Click();
+            GetButton("120").Click();
+            var result = ResultTextBox().Substring(0, 18);
+            Assert.AreEqual<string>(Math.PI.ToString("G16"), ResultTextBox().Substring(0, 17));
+            GetWindow().MenuBar.MenuItem("View", "Standard").Click();
             application.Close();
         }
     }
